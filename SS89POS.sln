@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1704.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS89POS", "SS89POS\SS89POS.csproj", "{9659D221-4FAB-41A0-A07E-F6155F933563}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9659D221-4FAB-41A0-A07E-F6155F933563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9659D221-4FAB-41A0-A07E-F6155F933563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9659D221-4FAB-41A0-A07E-F6155F933563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9659D221-4FAB-41A0-A07E-F6155F933563}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E43F2B1-FD27-4F25-9B49-99318F2357C5}
+	EndGlobalSection
+EndGlobal
