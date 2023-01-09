@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SS89POS.Data;
 
@@ -11,9 +12,11 @@ using SS89POS.Data;
 namespace SS89POS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230109033555_UpdateProduct")]
+    partial class UpdateProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,68 +104,6 @@ namespace SS89POS.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("SS89POS.Models.Sale", b =>
-                {
-                    b.Property<Guid>("SaleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("GrandTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("InvoiceNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("IssueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("SaleId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Sale");
-                });
-
-            modelBuilder.Entity("SS89POS.Models.SaleDetail", b =>
-                {
-                    b.Property<Guid>("SaleDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SaleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SaleDetailId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleDetail");
-                });
-
             modelBuilder.Entity("SS89POS.Models.Product", b =>
                 {
                     b.HasOne("SS89POS.Models.Category", "Category")
@@ -172,36 +113,6 @@ namespace SS89POS.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("SS89POS.Models.Sale", b =>
-                {
-                    b.HasOne("SS89POS.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("SS89POS.Models.SaleDetail", b =>
-                {
-                    b.HasOne("SS89POS.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SS89POS.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Sale");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,6 +17,9 @@ namespace SS89POS.Models
 		public double Price { get; set; }
 		public string Image { get; set; }
 		public int Qty { get; set; }
+		[Required]
+		[MaxLength(20)]
+		public string Barcode { get; set; }
 
 		public Category Category { get; set; }
 	}

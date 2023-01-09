@@ -27,7 +27,8 @@ namespace SS89POS.Controllers
             var appDbContext = _context.Product.Include(p => p.Category);
             return View(await appDbContext.ToListAsync());
         }
-
+        public async Task<JsonResult> Barcode(string code)
+            => Json(await _context.Product.FirstOrDefaultAsync(x => x.Barcode.Equals(code)));
         // GET: Product/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -59,7 +60,7 @@ namespace SS89POS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,CategoryId,Price,Image,Qty")] ProductDTO product)
+        public async Task<IActionResult> Create(ProductDTO product)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +70,7 @@ namespace SS89POS.Controllers
                     CategoryId = product.CategoryId,
                     ProductName = product.ProductName,
                     Qty = product.Qty,
+                    Barcode=product.Barcode,
                     Price = product.Price,
                     Image=UploadFile(product)
                 };
