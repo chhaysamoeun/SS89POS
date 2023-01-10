@@ -82,26 +82,50 @@
     <script>
         $(document).ready(function () {
             $("#search").keypress(function (e) {
+                var isExist = false;
+                var i = 0;
                 if (e.which == 13) {
-                    $.ajax({
-                        method: "GET",
-                        url: "/Product/Barcode/?code=" + $("#search").val(),
-                        contentType: "application/json",
-                        success: function (data) {
-                            var row = "<tr><td>" + data.productName;
-                            row += "</td><td>" + data.price;
-                            row += "</td><td>" + 1;
-                            row += "</td><td>" + data.price;
-                            row += "</td><td><a href='#' ";
-                            row += "class='btn btn-danger'>Delete</a></td></tr>";
-                            $("#saleList").append(row);
-                        }, error: function (error) {
-                            console.log(error);
+                    $("#saleList > tbody > tr").each(function() {
+                        var barcode = document.getElementsByName("barcode[]")[i].value;
+                        if (barcode == $("#search").val()) {
+                            var qty = $(this).closest("tr").find("td:eq(2)").text();
+                            var price = $(this).closest("tr").find("td:eq(1)").text();
+                            $(this).closest("tr").find("td:eq(2)").text(Number(qty) + 1);
+                            $(this).closest("tr").find("td:eq(3)").text((Number(qty) + 1) * Number(price));
+                            isExist = true;
                         }
+                        i++;
                     });
+                    if (isExist == false) {
+                        $.ajax({
+                            method: "GET",
+                            url: "/Product/Barcode/?code=" + $("#search").val(),
+                            contentType: "application/json",
+                            success: function (data) {
+                                var row = "<tr><td><input type='hidden' name='barcode[]' value='"+ data.barcode +"'/>" + data.productName;
+                                row += "</td><td>" + data.price;
+                                row += "</td><td>" + 1;
+                                row += "</td><td>" + data.price;
+                                row += "</td><td><a href='#' ";
+                                row += "class='btn btn-danger'>Delete</a></td></tr>";
+                                $("#saleList").append(row);
+                            }, error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    }
                     $("#search").val("");
+                    CalculatePrice();
                 }
             });
         });
+        function CalculatePrice() {
+            var amount = 0;
+            $("#saleList > tbody > tr").each(function () {
+                var price = $(this).closest("tr").find("td:eq(2)").text();
+                amount += Number(price);
+            });
+            $("#Total").val(amount);
+        }
     </script>
 }
