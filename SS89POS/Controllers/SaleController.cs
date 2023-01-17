@@ -57,11 +57,21 @@ namespace SS89POS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SaleId,CustomerId,IssueDate,InvoiceNumber,Total,Discount,GrandTotal")] Sale sale)
+        public async Task<IActionResult> Create(Sale sale)
         {
             if (ModelState.IsValid)
             {
-                sale.SaleId = Guid.NewGuid();
+                var saleId = Guid.NewGuid();
+                if(sale.SaleDetails.Count > 0)
+                {
+                    for(int i=0;i<sale.SaleDetails.Count;i++)
+                    {
+                        sale.SaleDetails[i].SaleId = saleId;
+                        sale.SaleDetails[i].SaleDetailId = Guid.NewGuid();
+                        _context.SaleDetail.Add(sale.SaleDetails[i]);
+                    }
+                }
+                sale.SaleId = saleId;
                 _context.Add(sale);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

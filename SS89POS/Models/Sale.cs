@@ -22,6 +22,7 @@ namespace SS89POS.Models
         public decimal GrandTotal { get; set; }
 
 		public Customer Customer { get; set; }
+		public List<SaleDetail> SaleDetails { get; set; }
 	}
 }
 
